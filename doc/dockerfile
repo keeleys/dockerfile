@@ -1,0 +1,21 @@
+FROM java:8u111-jdk
+LABEL maintainer="keeley.jun@qq.com"
+
+ENV VERSION=6.1.2
+
+RUN apt-get update && \
+    apt-get install -y wget
+
+RUN apt-get -y install ttf-wqy-microhei
+
+RUN DIR=$(mktemp -d) && cd ${DIR} && \
+    wget https://download.documentfoundation.org/libreoffice/stable/${VERSION}/deb/x86_64/LibreOffice_${VERSION}_Linux_x86-64_deb.tar.gz && \
+    tar zxvf LibreOffice_${VERSION}_Linux_x86-64_deb.tar.gz && \
+    cd LibreOffice_${VERSION}.1_Linux_x86-64_deb&& \
+    cd DEBS/ && \
+    dpkg -i *.deb && \
+    rm -rf ${DIR} && \
+    rm -rf /var/lib/apt/lists/ && \
+    ln -n -s /opt/libreoffice6.1/ /usr/lib/libreoffice
+
+CMD libreoffice
