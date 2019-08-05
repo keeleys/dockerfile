@@ -3,6 +3,8 @@ services:
     redis_db:
         images: redis:5.0.5
         command: redis-server --requirepass 123456
+        ports:
+            - "6379:6379"
     wechat-token:
         images: terrysolar/wechat-token
         depends_on:
