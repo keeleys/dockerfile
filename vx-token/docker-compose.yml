@@ -1,0 +1,17 @@
+version: "3.7"
+services:
+    redis_db:
+        images: redis:5.0.5
+        command: redis-server --requirepass 123456
+    wechat-token:
+        images: terrysolar/wechat-token
+        depends_on:
+            - redis_db
+        environment:
+            - REDIS_ADDR=redis_db:6379
+            - REDIS_PASSWORD=123456
+            - WECHAT_APP_ID=xxx
+            - WECHAT_APP_SECRET=xxx
+
+
+# https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=xxx&secret=xxx
